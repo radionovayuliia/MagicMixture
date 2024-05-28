@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Nuevo Usuario</title>
+</head>
+
+<body>
+    <h1>Nuevo Usuario</h1>
+    <form method="post" action="#" th:action="@{/autoregistro/nuevo/submit}" th:object="${usuario}">
+        <label>Nombre: <input type="text" id="nombre" th:field="*{nombre}" /></label><br />
+        <label>Email: <input type="text" id="email" th:field="*{email}" /></label><br />
+        <label>Contraseña: <input type="password" id="contraseña" th:field="*{contraseña}" /></label><br />
+        <input type="submit" value="Enviar" />
+    </form>
+</body>
+
+</html>

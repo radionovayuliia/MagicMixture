@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <table border="1px">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Email</th>
+                <th>Valoracion</th>
+                <th>Fecha Registro</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="user : ${listaUsuarios}">
+                <td th:text="${user.id}">Id</td>
+                <td th:text="${user.nombre}">nombre</td>
+                <td th:text="${user.email}">email</td>
+                <td><a th:href="@{/valoracion/usuario/{id}(id=${user.id})}">Valoracion</a></td>
+                <td th:text="${user.fechaRegistro}">fechaRegistro</td>
+                <td><a th:href="@{/usuarios/edit/{id}(id=${user.id})}">Editar</a></td>
+                <td><a th:href="@{/usuarios/delete/{id}(id=${user.id})}">Borrar</a></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/usuarios/newUser}">Añadir usuario</a><br />
+    <p th:text="${msg}">*</p>
+    <a href="/public">Inicio</a>
+</body>
+
+</html>

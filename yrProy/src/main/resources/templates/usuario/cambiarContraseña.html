@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h1>Cambiar contraseña</h1>
+    <form method="post" action="#" th:action="@{/usuarios/cambiarContraseña/submit}" th:object="${usuario}">
+        <label>Contraseña: <input type="password" id="contraseña" th:field="*{contraseña}" /></label><br />
+        <input type="submit" value="Enviar" />
+    </form>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h1>Nueva valoración</h1>
+    <form method="post" action="#" th:action="@{/valoracion/new/submit}" th:object="${valoracionesForm}">
+        <label>Puntuación: <input type="number" id="puntuacion" min="0" max="10"
+                th:field="*{puntuacion}" /></label><br />
+        <label>Comentario: <input type="text" id="comentario" th:field="*{comentario}" /></label><br />
+        <label>Coctel:
+            <select th:field="*{coctel.id}">
+                <option th:each="prod : ${listaCocteles}" th:value="${prod.id}" th:text="${prod.nombre}"></option>
+            </select>
+        </label><br />
+        <input type="submit" value="Enviar" />
+    </form>
+
+</body>
+
+</html>

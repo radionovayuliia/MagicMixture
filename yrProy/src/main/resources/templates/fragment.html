@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity">
+
+<head th:fragment="cabecera">
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="/webjars/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <script src="/webjars/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <title>Fragmentos</title>
+</head>
+
+<body>
+  <nav th:fragment="mainMenu" class="navbar navbar-expand-sm navbar-light bg-light">
+    <div class="container-fluid">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/quienes-somos">Quienes somos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/cocteles">Cocteles</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/categorias">Categorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/api/contacta">Contacta</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/usuarios">Usuario</a>
+          </li>
+
+          <li sec:authorize="!isAuthenticated()">
+            <a class="nav-item nav-link active" th:href="@{/login}">Iniciar sesión</a>
+          </li>
+          <li sec:authorize="!isAuthenticated()">
+            <a class="nav-item nav-link active" th:href="@{/autoregistro/nuevo}">Autoregistro</a>
+          </li>
+          <li class="nav-item ms-md-auto dropdown " sec:authorize="isAuthenticated()">
+            <a class="nav-link dropdown-toggle" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown"
+              aria-haspopup="true" aria-expanded="false">
+              <span sec:authentication="name"></span></a>
+            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="/usuarios/edit">Editar perfil</a></li>
+              <li><a class="dropdown-item" href="/usuarios/cambiarContraseña">Cambiar Contraseña</a></li>
+              <li><a class="dropdown-item" th:href="@{/logout}">Cerrar sesión</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</body>
+
+</html>

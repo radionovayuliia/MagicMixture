@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h3>Los datos han sido recibidos correctamente!</h3> <br />
+    <p>Datos para procesar:</p>
+    <br />
+    Nombre: <span th:text="${nombre}"></span>
+    <br />
+    Correo: <span th:text="${correo}"></span>
+    <br />
+    Razón: <span th:text="${opcion}"></span>
+    <br />
+    Comentario: <span th:text="${comentario}"></span>
+    <br />
+    Condiciones aceptadas: <span th:text="${condiciones} ? 'Sí' : 'No'"></span>
+</body>
+
+</html>

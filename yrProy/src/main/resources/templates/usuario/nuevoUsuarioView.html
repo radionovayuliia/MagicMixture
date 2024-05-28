@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h1>Nuevo Usuario</h1>
+    <form method="post" action="#" th:action="@{/usuarios/nuevoUsuario/submit}" th:object="${usuario}">
+        <label>Id: <input type="hidden" id="id" th:field="*{id}" /> </label><br />
+        <label>Nombre: <input type="text" id="nombre" th:field="*{nombre}" /></label><br />
+        <label>Email: <input type="text" id="email" th:field="*{email}" /></label><br />
+        <label>Contraseña: <input type="password" id="contraseña" th:field="*{contraseña}" /></label><br />
+        <input type="submit" value="Enviar" />
+    </form>
+</body>
+
+</html>

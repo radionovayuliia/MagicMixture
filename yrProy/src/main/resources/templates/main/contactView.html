@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head th:replace="~{/fragment.html::cabecera}"></head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h3>Escribe tus datos y nos contactamos contigo</h3>
+    <form action="#" method="post" th:action="@{/api/contacta/submit}" th:object="${formInfoContacta}">
+        <label>
+            <div>
+                Nombre:
+                <input type="text" id="nombre" th:field="*{nombre}">
+            </div>
+            <div>
+                Correo:
+                <input type="text" id="correo" th:field="*{correo}">
+            </div>
+            <div>
+                Por qué razon quieres contactar con nosotros? <br />
+                <select id="opcion" name="opcion" th:field="*{opcion}">
+                    <option value="queja">Queja</option>
+                    <option value="consulta">Consulta</option>
+                    <option value="otros">Otros</option>
+                </select>
+            </div>
+            <div>
+                <textarea id="comentario" th:field="*{comentario}" rows="10" cols="40">Escribe tu comentario</textarea>
+            </div>
+            <div>
+                Aceptar las condiciones del servicio
+                <input type="checkbox" id="condiciones" th:field="*{condiciones}">
+            </div>
+            <br />
+        </label>
+        <input type="submit" value="Enviar" />
+    </form>
+</body>
+<footer>
+    <!-- <a href="indexView.html">Inicio</a> -->
+    <a href="/api">Inicio</a>
+    <a href="/api/quienes-somos">Quien somos</a>
+    <a href="/cocteles">Cocteles</a>
+</footer>
+
+</html>

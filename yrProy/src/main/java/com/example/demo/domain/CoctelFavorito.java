@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode
 public class CoctelFavorito {
     private String nombre;
-    private Integer edad;
     private String coctel;
     private String receta;
     private String opcion;

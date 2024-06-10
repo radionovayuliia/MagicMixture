@@ -17,4 +17,8 @@ public interface UsuarioService {
     void borrar(Long id);
 
     Usuario obtenerUsuarioConectado();
+
+    Usuario registrarUsuario(Usuario usuario);
+
+    Usuario obtenerPorNombre(String nombre);
 }

@@ -1,14 +1,29 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-
-<head th:replace="~{/fragment.html::cabecera}"></head>
-
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quienes somos</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/quienesSomos.css">
+    <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
 <body>
-    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h1>Soy Yuliia Radionova</h1>
-    <a href="/api">Inicio</a>
-    <a href="/cocteles">Cocteles</a>
-    <a href="/api/contacta">Contacta con nosotros</a>
+    <div class="scroll-snap-card">
+        <div class="slide red">
+            <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+            <div class="slide-content">
+                <p class="tip">Nuestra historia</p>
+            </div>
+        </div>
+        <div class="slide blue">
+            <p class="tip">Nuestra historia comienza con una mezcla única de miel, mantequilla y vodka, cariñosamente llamada "mixturka" por una madre amorosa.</p>
+        </div>
+        <div class="slide green">
+            <p class="tip">Únete a nosotros en MagicMixture, donde las tradiciones familiares se mezclan con la innovación para crear un lugar donde el arte de los cócteles se convierte en una experiencia mágica y memorable. ¡Porque cada gota de sabor cuenta, y cada usuario es parte de nuestra hermosa historia!</p>
+        </div>
+    </div>
 </body>
-
 </html>
+

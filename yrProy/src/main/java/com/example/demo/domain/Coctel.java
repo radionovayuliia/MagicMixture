@@ -24,7 +24,8 @@ public class Coctel {
     private String nombre;
     private TipoCoctel tipoCoctel;
     private String ingredientes;
-    private String preparacion;
+    private Float precio;
+    private Integer stock;
 
     @ToString.Exclude
     @ManyToOne

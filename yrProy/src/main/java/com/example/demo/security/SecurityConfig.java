@@ -18,44 +18,43 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 @EnableMethodSecurity
 public class SecurityConfig {
-        @Bean
-        public AuthenticationManager authenticationManager(
-                        AuthenticationConfiguration authenticationConfiguration)
-                        throws Exception {
-                return authenticationConfiguration.getAuthenticationManager();
-        }
+    @Bean
+    public AuthenticationManager authenticationManager(
+                    AuthenticationConfiguration authenticationConfiguration)
+                    throws Exception {
+            return authenticationConfiguration.getAuthenticationManager();
+    }
 
-        @Bean
-        public PasswordEncoder passwordEncoder() {
-                return new BCryptPasswordEncoder();
-        }
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+            return new BCryptPasswordEncoder();
+    }
 
-        @Bean
-        public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-                http.headers(headersConfigurer -> headersConfigurer
-                                .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
-                http.authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/**", "/cocteles", "/categorias", "/autoregistro/**", "/h2-console/**")
-                                .permitAll() // configurarpermisosreales
-                                .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                                .requestMatchers("/valoracion/producto/**", "/valoracion/usuario/**", "/valoracion/new/**", "/valoracion/**")
-                                .hasAnyRole("USER", "MANAGER", "ADMIN")
-                                .requestMatchers("/valoracion/new").hasRole("USER")
-                                .requestMatchers("/valoracion/**", "/cocteles/**", "/categorias/**")
-                                .hasAnyRole("MANAGER", "ADMIN")
-                                // .requestMatchers("/**").hasRole("ADMIN")
-                                // para rutas: /css, /js /images
-                                .anyRequest().authenticated())
-                                .formLogin(formLogin -> formLogin
-                                                .defaultSuccessUrl("/api", true)
-                                                .permitAll())
-                                .logout(logout -> logout
-                                                .logoutSuccessUrl("/api")
-                                                .permitAll())
-                                // .csrf(csrf -> csrf.disable())
-                                .rememberMe(Customizer.withDefaults())
-                                .httpBasic(Customizer.withDefaults());
-                http.exceptionHandling(exceptions -> exceptions.accessDeniedPage("/accessError"));
-                return http.build();
-        }
+    @Bean
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+            http.headers(headersConfigurer -> headersConfigurer
+                            .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+            http.authorizeHttpRequests(auth -> auth
+                            .requestMatchers("/magicmixture/**", "/magicmixture/registro/submit", "/autoregistro/**", "/styles/**", "/images/**", "/gif/**")
+                            .permitAll()
+                            .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
+                            .requestMatchers("/valoracion/producto/**", "/valoracion/usuario/**", "/valoracion/new/**", "/valoracion/**", "/cocteles")
+                            .hasAnyRole("USER", "MANAGER", "ADMIN")
+                            .requestMatchers("/valoracion/new").hasRole("USER")
+                            .requestMatchers("/valoracion/**", "/cocteles/**", "/categorias/**")
+                            .hasAnyRole("MANAGER", "ADMIN")
+                            .anyRequest().authenticated())
+                            .formLogin(formLogin -> formLogin
+                                            .loginPage("/magicmixture/login")
+                                            .defaultSuccessUrl("/cocteles", true)
+                                            .permitAll())
+                            .logout(logout -> logout
+                                            .logoutUrl("/magicmixture/logout") 
+                                            .logoutSuccessUrl("/magicmixture")
+                                            .permitAll())
+                            .rememberMe(Customizer.withDefaults())
+                            .httpBasic(Customizer.withDefaults());
+            http.exceptionHandling(exceptions -> exceptions.accessDeniedPage("/accessError"));
+            return http.build();
+    }
 }

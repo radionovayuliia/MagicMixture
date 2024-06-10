@@ -30,16 +30,40 @@ public class DemoApplication {
 			UsuarioService usuarioService, ValoracionService valoracionService, PasswordEncoder passwordEncoder) {
 		return args -> {
 			Categoria cat1 = categoriaService.añadir(
-					new Categoria(0L, "Categoria A"));
+					new Categoria(0L, "Primera Cita"));
 			Categoria cat2 = categoriaService.añadir(
-					new Categoria(0L, "Categoria B"));
+					new Categoria(0L, "Risas y Amigos"));
+			Categoria cat3 = categoriaService.añadir(
+					new Categoria(0L, "Suspiro Vintage"));
+			Categoria cat4 = categoriaService.añadir(
+					new Categoria(0L, "Viajero Mundial"));
+			Categoria cat5 = categoriaService.añadir(
+					new Categoria(0L, "Misterio Profundo"));
+			Categoria cat6 = categoriaService.añadir(
+					new Categoria(0L, "Pa' Olvidar Todo"));
 			coctelService.añadir(
-					new Coctel(0L, "Mojito", TipoCoctel.Aperetivo, "ron, menta, lima, azúcar, agua con gas", "Rapida",
+					new Coctel(0L, "Mojito", TipoCoctel.Aperetivo, "ron, menta, lima, azúcar, agua con gas", 25.00f, 4,
 							cat1));
 			coctelService.añadir(
-					new Coctel(0L, "Caipirinha", TipoCoctel.Aperetivo, "piña", "Rapida", cat1));
+					new Coctel(0L, "Caipirinha", TipoCoctel.Aperetivo, "piña", 30.09f, 4, cat1));
 			coctelService.añadir(
-					new Coctel(0L, "Bloody Mary", TipoCoctel.Aperetivo, "zumo de tomate", "Rapida", cat2));
+					new Coctel(0L, "Bloody Mary", TipoCoctel.Aperetivo, "zumo de tomate", 30.00f, 8, cat2));
+			coctelService.añadir(
+					new Coctel(0L, "Margarita", TipoCoctel.Aperetivo, "tequila, triple sec, jugo de lima", 25.00f, 8,
+							cat3));
+
+			coctelService.añadir(
+					new Coctel(0L, "Piña Colada", TipoCoctel.Aperetivo, "ron, crema de coco, jugo de piña", 35.00f, 10,
+							cat4));
+
+			coctelService.añadir(
+					new Coctel(0L, "Mai Tai", TipoCoctel.Aperetivo, "ron, curaçao de naranja, jugo de lima, jarabe de orgeat", 20.00f, 7, cat5));
+
+			coctelService.añadir(
+					new Coctel(0L, "Tequila Sunrise", TipoCoctel.LongDrink, "tequila, jugo de naranja, granadina", 28.00f, 9, cat6));
+
+			coctelService.añadir(
+					new Coctel(0L, "Cosmopolitan", TipoCoctel.Aperetivo, "vodka, triple sec, jugo de arándano, jugo de lima", 22.00f, 8, cat1));
 			usuarioService
 					.añadir(new Usuario(0L, "Ana", "ana@gmail.com", "12345", UserRol.USER,
 							LocalDate.now()));

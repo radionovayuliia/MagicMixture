@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Iniciar Sesión</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/iniciarSesion.css">
+    <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <div class="login">
+        <h2>Iniciar sesión</h2>
+        <form th:action="@{/magicmixture/login}" method="post">
+            <div th:if="${logoutMessage}" class="alert alert-success" role="alert">
+                <p th:text="${logoutMessage}"></p>
+            </div>
+            <div class="inputBox">
+                <input type="text" placeholder="Usuario" name="username" required>
+            </div>
+            <div class="inputBox">
+                <input type="password" placeholder="Contraseña" name="password" required>
+            </div>
+            <div class="inputBox">
+                <input type="submit" value="Entrar" id="boton">
+            </div>
+        </form>
+        <div th:if="${errorMessage}" class="alert alert-danger" role="alert">
+            <p th:text="${errorMessage}"></p>
+        </div>
+        <div class="group">
+            <a href="#">He olvidado mi contraseña</a>
+            <a href="/magicmixture/registro">Regístrate</a>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

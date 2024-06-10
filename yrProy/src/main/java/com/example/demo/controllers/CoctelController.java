@@ -1,6 +1,9 @@
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,7 +42,6 @@ public class CoctelController {
     public String showCoctelFavorito(CoctelFavorito coctelFavorito, Model model,
             @RequestParam("miFichero") MultipartFile myfile) {
         model.addAttribute("nombre", coctelFavorito.getNombre());
-        model.addAttribute("edad", coctelFavorito.getEdad());
         model.addAttribute("coctel", coctelFavorito.getCoctel());
         model.addAttribute("receta", coctelFavorito.getReceta());
         model.addAttribute("opcion", coctelFavorito.getOpcion());
@@ -52,40 +54,27 @@ public class CoctelController {
         return "/coctel/detalleCoctel";
     }
 
-    // @GetMapping("/lista")
-    // public String showListaCocteles(Model model) {
-    // String[] cocteles = coctelService.listarCocteles();
-    // model.addAttribute("listaCocteles", cocteles);
-    // return "/favCoctel/listaCocteles";
-    // }
-
     @GetMapping("")
-    public String showProductos(@RequestParam(required = false) Integer op, Model model) {
-        model.addAttribute("listaCocteles", coctelService.obtenerTodos());
-        model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
-        model.addAttribute("categoriaSeleccionada", new Categoria(0L, "Todas"));
-        if (op != null) {
-            switch (op) {
-                case 1:
-                    model.addAttribute("msg", "Coctel añadido correctamente");
-                    break;
-                case 2:
-                    model.addAttribute("msg", "Coctel editado correctamente");
-                    break;
-                case 3:
-                    model.addAttribute("msg", "Coctel borrado correctamente");
-                    break;
-                case 4:
-                    model.addAttribute("msg", "Coctel no se ha podido editar correctamente");
-                    break;
-                case 5:
-                    model.addAttribute("msg", "Coctel no se ha podido borrado correctamente");
-                    break;
-                case 6:
-                    model.addAttribute("msg", "Datos incorrectos");
-                    break;
+    public String showProductos(@RequestParam(defaultValue = "0") int page,
+                                @RequestParam(required = false) Long categoriaId,
+                                Model model) {
+        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Page<Coctel> cocteles;
+        if (categoriaId != null && categoriaId > 0) {
+            cocteles = coctelService.obtenerPorCategoria(categoriaId, pageable);
+            try {
+                model.addAttribute("categoriaSeleccionada", categoriaService.obtenerPorId(categoriaId));
+            } catch (NotFoundException e) {
+                model.addAttribute("error", e.getMessage());
             }
+        } else {
+            cocteles = coctelService.obtenerTodos(pageable);
+            model.addAttribute("categoriaSeleccionada", new Categoria(0L, "Todas"));
         }
+        model.addAttribute("listaCocteles", cocteles.getContent());
+        model.addAttribute("totalPages", cocteles.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
         return "/coctel/detalleCoctel";
     }
 
@@ -106,8 +95,7 @@ public class CoctelController {
 
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Coctel coctel;
-        coctel = coctelService.obtenerPorId(id);
+        Coctel coctel = coctelService.obtenerPorId(id);
         model.addAttribute("bebida", coctel);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
         return "coctel/editarCoctelView";
@@ -135,10 +123,43 @@ public class CoctelController {
     }
 
     @GetMapping("/porCateg/{idCat}")
-    public String showListInCategory(@PathVariable Long idCat, Model model) throws NotFoundException {
-        model.addAttribute("listaCocteles", coctelService.obtenerPorCategoria(idCat));
+    public String showListInCategory(@PathVariable Long idCat, @RequestParam(defaultValue = "0") int page, Model model) {
+        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Page<Coctel> cocteles = coctelService.obtenerPorCategoria(idCat, pageable);
+        model.addAttribute("listaCocteles", cocteles.getContent());
+        model.addAttribute("totalPages", cocteles.getTotalPages());
+        model.addAttribute("currentPage", page);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
-        model.addAttribute("categoriaSeleccionada", categoriaService.obtenerPorId(idCat));
+        try {
+            model.addAttribute("categoriaSeleccionada", categoriaService.obtenerPorId(idCat));
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+        }
+        return "coctel/detalleCoctel";
+    }
+
+    @GetMapping("/buscar")
+    public String buscarCocteles(@RequestParam("nombre") String nombre, 
+                                 @RequestParam(value = "categoria", required = false) Long categoriaId,
+                                 @RequestParam(defaultValue = "0") int page,
+                                 Model model) {
+        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Page<Coctel> resultados;
+        if (categoriaId == null || categoriaId == 0) {
+            resultados = coctelService.buscarPorNombre(nombre, pageable);
+            model.addAttribute("categoriaSeleccionada", new Categoria(0L, "Todas"));
+        } else {
+            resultados = coctelService.buscarPorNombreYCategoria(nombre, categoriaId, pageable);
+            try {
+                model.addAttribute("categoriaSeleccionada", categoriaService.obtenerPorId(categoriaId));
+            } catch (NotFoundException e) {
+                model.addAttribute("error", e.getMessage());
+            }
+        }
+        model.addAttribute("listaCocteles", resultados.getContent());
+        model.addAttribute("totalPages", resultados.getTotalPages());
+        model.addAttribute("currentPage", page);
+        model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
         return "coctel/detalleCoctel";
     }
 }

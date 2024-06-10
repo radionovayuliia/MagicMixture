@@ -1,24 +1,40 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{/fragment.html::cabecera}"></head>
+<head>
+  <title>Editar perfil</title>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/styles/navbar.css">
+  <link rel="stylesheet" href="/styles/editarPerfil.css">
+  <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
 
 <body>
-  <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-  <h1>Editar usuario</h1>
-  <form method="post" action="#" th:action="@{/usuarios/editUsuario/submit}" th:object="${usuario}">
-    <label>Nombre:<input type="text" th:field="*{nombre}" readonly /></label><br />
-    <label>Email: <input type="text" id="email" th:field="*{email}" /></label><br />
-    <label>Contraseña:<input type="password" th:field="*{contraseña}" /></label><br />
-    <div sec:authorize="hasRole('ADMIN')" class="nav-item">
-      Rol:<select th:field="*{rol}" th:href="@{/usuarios}">
-        <option value="USUARIO">Usuario</option>
-        <option value="MANAGER">Manager</option>
-        <option value="ADMIN">Admin</option>
-      </select><br />
-    </div>
-    <input type="submit" value="Enviar" />
-  </form>
+  <div class="banner">
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+  </div>
+  <div class="container">
+    <form method="post" th:action="@{/magicmixture/editUsuario/submit}" th:object="${usuario}">
+      <h1>Editar usuario</h1>
+      <label>Nombre:<input type="text" th:field="*{nombre}" readonly /></label><br />
+      <label>Email: <input type="text" th:field="*{email}" /></label><br />
+      <input type="submit" value="Guardar cambios" />
+      <div th:if="${message}" class="message">
+        <p th:text="${message}"></p>
+      </div>
+    </form>
+
+    <form method="post" th:action="@{/magicmixture/cambiarContraseña/submit}" th:object="${contraseñaNuevaDto}">
+      <h2>Cambiar Contraseña</h2>
+      <label>Contraseña Actual: <input type="password" th:field="*{contraseñaActual}" required /></label><br />
+      <label>Nueva Contraseña: <input type="password" th:field="*{nuevaContraseña}" required /></label><br />
+      <input class="submit" type="submit" value="Cambiar Contraseña" />
+      <div th:if="${error}" class="error">
+        <p th:text="${error}"></p>
+      </div>
+    </form>
+  </div>
+
 </body>
 
 </html>

@@ -1,10 +1,27 @@
 package com.example.demo.dto;
 
-import lombok.Getter;
-import lombok.Setter;
+import jakarta.validation.constraints.NotEmpty;
 
-@Getter
-@Setter
 public class ContraseñaNuevaDto {
-    private String contraseña;
+    @NotEmpty
+    private String contraseñaActual;
+    
+    @NotEmpty
+    private String nuevaContraseña;
+
+    public String getContraseñaActual() {
+        return contraseñaActual;
+    }
+
+    public void setContraseñaActual(String contraseñaActual) {
+        this.contraseñaActual = contraseñaActual;
+    }
+
+    public String getNuevaContraseña() {
+        return nuevaContraseña;
+    }
+
+    public void setNuevaContraseña(String nuevaContraseña) {
+        this.nuevaContraseña = nuevaContraseña;
+    }
 }

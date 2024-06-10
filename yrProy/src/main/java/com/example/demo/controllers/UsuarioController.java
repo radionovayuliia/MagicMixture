@@ -20,7 +20,7 @@ import com.example.demo.services.UsuarioService;
 import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/usuarios")
+@RequestMapping("/magicmixture/")
 public class UsuarioController {
     @Autowired
     UsuarioService usuarioService;
@@ -28,15 +28,15 @@ public class UsuarioController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
-    @GetMapping("")
+    @GetMapping("/listaUsuarios")
     public String showUsuario(@RequestParam(required = false) Integer op, Model model) {
         model.addAttribute("listaUsuarios", usuarioService.obtenerTodos());
         if (op != null)
             model.addAttribute("msg", obtenerMensajeError(op));
-        return "/usuario/usuariosView";
+        return "usuario/usuariosView";
     }
 
-    @GetMapping("/newUser")
+    @GetMapping("/nuevoUsuario")
     public String showNew(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "usuario/nuevoUsuarioView";
@@ -51,42 +51,54 @@ public class UsuarioController {
         return "redirect:/api";
     }
 
-    @GetMapping("/edit")
+    @GetMapping("/editUsuario")
     public String showEditForm(Model model) {
-        model.addAttribute("usuario", new Usuario());
-        return "/usuario/editarUsuario";
+        Usuario usuarioConectado = usuarioService.obtenerUsuarioConectado();
+        model.addAttribute("usuario", usuarioConectado);
+        model.addAttribute("contraseñaNuevaDto", new ContraseñaNuevaDto());
+        return "usuario/editarUsuario";
     }
 
     @PostMapping("/editUsuario/submit")
-    public String showEditSubmit(Usuario usuarioForm, BindingResult bindingResult) {
-        Usuario usuarioCon = usuarioService.obtenerUsuarioConectado();
-        if (bindingResult.hasErrors())
-            return "redirect:/?op=6";
-        usuarioCon.setEmail(usuarioForm.getEmail());
-        usuarioService.editar(usuarioCon);
-        return "redirect:/api";
-    }
-
-    @GetMapping("/cambiarContraseña")
-    public String showCambioContraseña(Model model) {
-        model.addAttribute("usuario", new ContraseñaNuevaDto());
-        return "/usuario/cambiarContraseña";
+    public String showEditSubmit(@Valid @ModelAttribute("usuario") Usuario usuarioForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("contraseñaNuevaDto", new ContraseñaNuevaDto());
+            return "usuario/editarUsuario";
+        }
+        Usuario usuarioConectado = usuarioService.obtenerUsuarioConectado();
+        usuarioConectado.setEmail(usuarioForm.getEmail());
+        usuarioService.editar(usuarioConectado);
+        return "redirect:/magicmixture/editUsuario";
     }
 
     @PostMapping("/cambiarContraseña/submit")
-    public String showCambioContraseñaSubmit(ContraseñaNuevaDto contraseñaForm, BindingResult bindingResult) {
-        Usuario usuarioContectado = usuarioService.obtenerUsuarioConectado();
-        if (bindingResult.hasErrors())
-            return "redirect:/?op=6";
-        usuarioContectado.setContraseña(contraseñaForm.getContraseña());
-        usuarioService.editar(usuarioContectado);
-        return "redirect:/api";
+    public String showCambioContraseñaSubmit(@Valid @ModelAttribute("contraseñaNuevaDto") ContraseñaNuevaDto contraseñaForm, BindingResult bindingResult, Model model) {
+        if (bindingResult.hasErrors()) {
+            Usuario usuarioConectado = usuarioService.obtenerUsuarioConectado();
+            model.addAttribute("usuario", usuarioConectado);
+            return "usuario/editarUsuario";
+        }
+
+        Usuario usuarioConectado = usuarioService.obtenerUsuarioConectado();
+        if (!passwordEncoder.matches(contraseñaForm.getContraseñaActual(), usuarioConectado.getPassword())) {
+            model.addAttribute("error", "La contraseña actual no es correcta.");
+            model.addAttribute("usuario", usuarioConectado);
+            model.addAttribute("contraseñaNuevaDto", contraseñaForm);
+            return "usuario/editarUsuario";
+        }
+
+        usuarioConectado.setContraseña(passwordEncoder.encode(contraseñaForm.getNuevaContraseña()));
+        usuarioService.editar(usuarioConectado);
+        model.addAttribute("message", "Contraseña cambiada exitosamente.");
+        model.addAttribute("usuario", usuarioConectado);
+        model.addAttribute("contraseñaNuevaDto", new ContraseñaNuevaDto());
+        return "usuario/editarUsuario";
     }
 
     @GetMapping("/delete/{id}")
     public String showDelete(@PathVariable long id, Model model) {
         usuarioService.borrar(id);
-        return "redirect:/?op=3";
+        return "redirect:/magicmixture/listaUsuarios?op=3";
     }
 
     public String obtenerMensajeError(Integer op) {
@@ -106,3 +118,4 @@ public class UsuarioController {
         }
     }
 }
+

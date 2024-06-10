@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>MagicMixture</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css"> <!-- Cargar primero los estilos del navbar -->
+    <link rel="stylesheet" href="/styles/index.css"> <!-- Luego los estilos específicos de la página -->
+    <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <section>
+        <div class="content">
+            <h1>MAGIC MIXTURE</h1>
+            <p>donde la mezcla se vuelve magia</p>
+            <a href="/magicmixture/login" id="mezclarLink">
+                <div>
+                    <button type="button" id="mezclarButton"><span></span>EMPEZAR A MEZCLAR</button>
+                </div>
+            </a>
+            <input type="checkbox" id="mayorEdadCheckbox">Soy mayor de edad
+        </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        document.getElementById("mezclarButton").onclick = function(event) {
+            var checkbox = document.getElementById("mayorEdadCheckbox");
+            if (!checkbox.checked) {
+                event.preventDefault();
+                alert("Por favor, confirme que es mayor de edad.");
+            }
+        };
+    </script>
+</body>
+</html>
+

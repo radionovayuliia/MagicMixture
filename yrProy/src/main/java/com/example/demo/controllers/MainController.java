@@ -12,15 +12,15 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.domain.FormInfoContacta;
 
 @Controller
-@RequestMapping("/api")
+@RequestMapping("/magicmixture")
 public class MainController {
     
-    @GetMapping({"/home", "" })
+    @GetMapping({""})
     public String showIndex(@RequestParam(required = false) String usuario, Model model) {
         int fecha = YearMonth.now().getYear();
         model.addAttribute("user", usuario);
         model.addAttribute("anho", fecha);
-        return "main/homeView";
+        return "main/index";
     }
 
     @GetMapping("/quienes-somos")
@@ -28,13 +28,13 @@ public class MainController {
         return "main/aboutUsView";
     }
 
-    @GetMapping("/contacta")
+    @GetMapping("/contacto")
     public String showConacta(Model model) {
         model.addAttribute("formInfoContacta", new FormInfoContacta());
         return "main/contactView";
     }
 
-    @PostMapping("/contacta/submit")
+    @PostMapping("/contacto/submit")
     public String showContactaConNosotros(FormInfoContacta formInfoContacta, Model model) {
         model.addAttribute("nombre", formInfoContacta.getNombre());
         model.addAttribute("correo", formInfoContacta.getCorreo());

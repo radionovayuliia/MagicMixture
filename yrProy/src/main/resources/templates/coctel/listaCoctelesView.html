@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <title>Lista de Cócteles</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css"> 
+    <link rel="stylesheet" href="/styles/mainPage.css"> 
+    <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+
+    <main class="contenedor-main">
+        <section class="contenedor categorias">
+            <h1 class="heading-1">Mejores Productos</h1>
+            <div class="contenedor-opciones">
+                <a href="/cocteles" class="active">Para ti</a>
+                <a href="/cocteles?categoria=1">Primera cita</a>
+                <a href="/cocteles?categoria=2">Risas y Amigos</a>
+                <a href="/cocteles?categoria=3">Suspiro vintage</a>
+                <a href="/cocteles?categoria=4">Viajero Mundial</a>
+                <a href="/cocteles?categoria=5">Misterio Profundo</a>
+                <a href="/cocteles?categoria=6">Pa' Olvidar Todo</a>
+            </div>
+
+            <div class="contenedor-cocteles" th:each="coctel : ${listaCocteles}">
+                <div class="coctel">
+                    <div class="contenedor-img">
+                        <img th:src="@{/images/{img}(img=${coctel.imagen})}" th:alt="${coctel.nombre}" />
+                        <div class="button-group">
+                            <span>
+                                <i class="fa-regular fa-eye"></i>
+                            </span>
+                            <span>
+                                <i class="fa-regular fa-heart"></i>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="content-coctel">
+                        <h3 th:text="${coctel.nombre}">Nombre del Cóctel</h3>
+                        <span class="favoritos">
+                            <i class="fa-solid fa-basket-shopping"></i>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="contenedor contenedor-footer">
+            <div class="menu-footer">
+                <div class="contacto-info">
+                    <p class="title-footer">Información de Contacto</p>
+                    <ul>
+                        <li>Calle Caballeros, 1, 15006, A Coruña (Galicia)</li>
+                        <li>Teléfono: 123-456-7890</li>
+                        <li>Email: magicmixture@gmail.com</li>
+                    </ul>
+                    <div class="redesSociales">
+                        <span class="facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                        <span class="twitter">
+                            <i class="fa-brands fa-twitter"></i>
+                        </span>
+                        <span class="youtube">
+                            <i class="fa-brands fa-youtube}></i>
+                        </span>
+                        <span class="pinterest">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </span>
+                        <span class="instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="information">
+                    <p class="title-footer">Información</p>
+                    <ul>
+                        <li><a href="#">Acerca de Nosotros</a></li>
+                        <li><a href="#">Información</a></li>
+                        <li><a href="#">Políticas de Privacidad</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Contáctanos</a></li>
+                    </ul>
+                </div>
+
+                <div class="my-account">
+                    <p class="title-footer">Mi cuenta</p>
+                    <ul>
+                        <li><a href="#">Mi cuenta</a></li>
+                        <li><a href="#">Historial de órdenes</a></li>
+                        <li><a href="#">Lista de deseos</a></li>
+                        <li><a href="#">Boletín</a></li>
+                        <li><a href="#">Reembolsos</a></li>
+                    </ul>
+                </div>
+
+                <div class="newsletter">
+                    <p class="title-footer">Boletín informativo</p>
+                    <div class="content">
+                        <p>Suscríbete a nuestra aplicación y estarás siempre de buen humor</p>
+                        <input type="email" placeholder="Ingresa el correo aquí...">
+                        <button>Suscríbete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>MagicMixrute &copy; 2024</p>
+                <img src="../images/payment.png" alt="Pagos">
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
+    <script>
+        function changeCategory() {
+            const select = document.getElementById("select");
+            if (select.value == 0) window.location.href = "/cocteles";
+            else window.location.href = "/cocteles/porCateg/" + select.value;
+        }
+    </script>
+</body>
+</html>
+

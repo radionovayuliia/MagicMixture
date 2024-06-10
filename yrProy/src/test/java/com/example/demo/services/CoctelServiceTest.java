@@ -33,8 +33,8 @@ public class CoctelServiceTest {
     @BeforeAll
     public void init() {
         mockList = new ArrayList<>();
-        mockList.add(new Coctel(1L, "Mojito", TipoCoctel.Aperetivo, "ron, menta", "Rapida", null));
-        mockList.add(new Coctel(2L, "Martini", TipoCoctel.Aperetivo, "algo", "Rapida", null));
+        mockList.add(new Coctel(1L, "Mojito", TipoCoctel.Aperetivo, "ron, menta", 13.00f, 6, null));
+        mockList.add(new Coctel(2L, "Martini", TipoCoctel.Aperetivo, "algo", 13.00f, 6, null));
     }
 
     @Test

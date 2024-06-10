@@ -21,20 +21,23 @@ public class UsuarioServiceImpl implements UsuarioService{
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    public Usuario obtenerPorNombre(String nombre) {
+        return usuarioRepository.findByNombre(nombre);
+    }
+
     @Override
     public Usuario añadir(Usuario usuario) {
         String passCrypted = passwordEncoder.encode(usuario.getContraseña());
         usuario.setContraseña(passCrypted);
         try {
             return usuarioRepository.save(usuario);
-
         } catch (DataIntegrityViolationException e) {
             e.printStackTrace();
             return null;
         }
     }
 
-        @Override
+    @Override
     public List<Usuario> obtenerTodos() {
         return usuarioRepository.findAll();
     }
@@ -44,9 +47,8 @@ public class UsuarioServiceImpl implements UsuarioService{
         return usuarioRepository.findById(id).orElse(null);
     }
 
+    @Override
     public Usuario editar(Usuario usuario) {
-        String passCrypted = passwordEncoder.encode(usuario.getContraseña());
-        usuario.setContraseña(passCrypted);
         try {
             return usuarioRepository.save(usuario);
         } catch (DataIntegrityViolationException e) {
@@ -68,5 +70,11 @@ public class UsuarioServiceImpl implements UsuarioService{
             return usuarioRepository.findByNombre(nombreUsuarioConectado);
         }
         return null;
+    }
+
+    @Override
+    public Usuario registrarUsuario(Usuario usuario) {
+        usuario.setContraseña(passwordEncoder.encode(usuario.getContraseña()));
+        return usuarioRepository.save(usuario);
     }
 }

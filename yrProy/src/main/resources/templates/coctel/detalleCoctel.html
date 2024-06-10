@@ -1,43 +1,126 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
 
-<head th:replace="~{/fragment.html::cabecera}"></head>
+<head>
+    <title>Home</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/mainPage.css">
+</head>
 
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h1>Categorias</h1>
-    <select id="select" onChange="changeCategory();">
-        <option value="0">Todas</option>
-        <option th:each="cat : ${listaCategorias}" th:value="${cat.id}" th:text="${cat.nombre}"
-            th:selected="${cat.id} == ${categoriaSeleccionada.id} ? true : false">
-        </option>
-    </select>
+    <main class="contenedor-main">
+        <section class="contenedor">
+            <form action="/cocteles/buscar" method="get" class="form-busqueda">
+                <input type="text" name="nombre" placeholder="Buscar cóctel por nombre" class="form-control">
+                <button type="submit" class="btn btn-primary">Buscar</button>
+            </form>
+        </section>
+        <div th:if="${error}" class="alert alert-danger" th:text="${error}"></div>
+        <div th:if="${msg}" class="alert alert-info" th:text="${msg}"></div>
+        
+        <section class="contenedor categorias">
+            <div class="contenedor-opciones">
+                <a href="/cocteles" th:classappend="${categoriaSeleccionada.id == 0} ? 'active' : ''">Todos</a>
+                <a th:each="cat : ${listaCategorias}" th:href="@{'/cocteles/porCateg/' + ${cat.id}}"
+                    th:text="${cat.nombre}" th:classappend="${categoriaSeleccionada.id == cat.id} ? 'active' : ''">
+                </a>
+            </div>
 
-    <h1>Nuestros cocteles:</h1>
-    <table border="1px">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Tipo</th>
-                <th>Ingredientes</th>
-                <th>Preparacion</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="bebida : ${listaCocteles}">
-                <td th:text="${bebida.id}">Id</td>
-                <td th:text="${bebida.nombre}">Nombre</td>
-                <td th:text="${bebida.tipoCoctel}">Tipo coctel</td>
-                <td th:text="${bebida.ingredientes}">Ingredientes</td>
-                <td th:text="${bebida.preparacion}">Preparacion</td>
-                <td><a th:href="@{/cocteles/editar/{id}(id=${bebida.id})}">Editar</a></td>
-                <td><a th:href="@{/cocteles/borrar/{id}(id=${bebida .id})}">Borrar</a></td>
-            </tr>
-        </tbody>
-    </table>
-    <a th:href="@{/cocteles/nuevo}">Añadir coctel</a><br />
-    <h2>Categoría: <span th:text="${categoriaSeleccionada.nombre}">default</span></h2>
+            <div class="contenedor-cocteles">
+                <a th:each="bebida : ${listaCocteles}" th:href="@{'/cocteles/' + ${bebida.id}}">
+                    <div class="coctel">
+                        <div class="contenedor-img">
+                            <img th:src="@{'/images/cocteles/' + ${bebida.nombre} + '.png'}" th:alt="${bebida.nombre}" />
+                        </div>
+                        <div class="content-coctel">
+                            <h3 th:text="${bebida.nombre}">Nombre del cóctel</h3>
+                            <div class="precio" th:text="${bebida.precio} + ' €'">Precio</div>
+                            <button class="add-to-cart">Añadir</button>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="pagination">
+                <a th:href="@{'/cocteles?page=' + (${currentPage} - 1)}" th:if="${currentPage > 0}">&laquo;</a>
+                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+                    <a th:href="@{'/cocteles?page=' + ${i}}" th:text="${i + 1}" th:class="${i == currentPage} ? 'active' : ''"></a>
+                </span>
+                <a th:href="@{'/cocteles?page=' + (${currentPage} + 1)}" th:if="${currentPage < totalPages - 1}">&raquo;</a>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="contenedor contenedor-footer">
+            <div class="menu-footer">
+                <div class="contacto-info">
+                    <p class="title-footer">Información de Contacto</p>
+                    <ul>
+                        <li>Calle Caballeros, 1, 15006, A Coruña (Galicia)</li>
+                        <li>Teléfono: 123-456-7890</li>
+                        <li>Email: magicmixture@gmail.com</li>
+                    </ul>
+                    <div class="redesSociales">
+                        <span class="facebook">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </span>
+                        <span class="twitter">
+                            <i class="fa-brands fa-twitter"></i>
+                        </span>
+                        <span class="youtube">
+                            <i class="fa-brands fa-youtube"></i>
+                        </span>
+                        <span class="pinterest">
+                            <i class="fa-brands fa-pinterest-p"></i>
+                        </span>
+                        <span class="instagram">
+                            <i class="fa-brands fa-instagram"></i>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="information">
+                    <p class="title-footer">Información</p>
+                    <ul>
+                        <li><a href="#">Acerca de Nosotros</a></li>
+                        <li><a href="#">Información</a></li>
+                        <li><a href="#">Políticas de Privacidad</a></li>
+                        <li><a href="#">Términos y condiciones</a></li>
+                        <li><a href="#">Contáctanos</a></li>
+                    </ul>
+                </div>
+                <div class="my-account">
+                    <p class="title-footer">Mi cuenta</p>
+                    <ul>
+                        <li><a href="#">Mi cuenta</a></li>
+                        <li><a href="#">Historial de órdenes</a></li>
+                        <li><a href="#">Lista de deseos</a></li>
+                        <li><a href="#">Boletín</a></li>
+                        <li><a href="#">Reembolsos</a></li>
+                    </ul>
+                </div>
+
+                <div class="newsletter">
+                    <p class="title-footer">Boletín informativo</p>
+                    <div class="content">
+                        <p>Suscríbete a nuestra aplicación y estarás siempre de buen humor</p>
+                        <input type="email" placeholder="Ingresa el correo aquí...">
+                        <button>Suscríbete</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="copyright">
+                <p>MagicMixrute &copy; 2024</p>
+                <img src="../images/payment.png" alt="Pagos">
+            </div>
+        </div>
+    </footer>
+
+    <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
     <script>
         function changeCategory() {
             const select = document.getElementById("select");
@@ -45,7 +128,6 @@
             else window.location.href = "/cocteles/porCateg/" + select.value;
         }
     </script>
-    <p th:text="${msg}">*</p>
 </body>
 
 </html>

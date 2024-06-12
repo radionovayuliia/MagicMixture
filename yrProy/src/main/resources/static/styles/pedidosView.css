@@ -1,25 +1,188 @@
-.contenedor {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: 20px;
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "the-seasons";
 }
 
-.pedido {
-    border: 1px solid #ddd;
-    margin-bottom: 20px;
-    padding: 15px;
-    border-radius: 5px;
-    background-color: #f9f9f9;
+html, body {
+    height: 100%;
+    overflow: hidden;
+    color: #fff;
 }
 
-.pedido h3 {
-    margin-top: 0;
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../images/inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
 }
 
-.pedido p {
-    margin: 5px 0;
-}
-
-.pedido table {
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
     width: 100%;
+    height: 100px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+}
+
+.navbar {
+    width: 85%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: initial;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul li {
+    list-style: none;
+    margin: 0 20px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #A58A6A;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: width 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+
+.contenedor-main {
+    width: 100%;
+    max-width: 1000px;
+    margin: 120px auto 20px;
+    z-index: 1;
+    padding: 20px;
+    border-radius: 10px;
+    color: #000;
+    overflow-y: auto; /* Agregar scroll al contenedor principal */
+    background: rgba(0, 0, 0, 0.25);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    max-height: 80vh; /* Limitar la altura del contenedor principal */
+}
+
+/* Título de la sección */
+.contenedor h1 {
+    color: #ffffff;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+/* Contenedor de cada pedido */
+.pedido {
+    margin-bottom: 20px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Título de cada pedido */
+.pedido h3 {
+    color: #A58A6A;
+}
+
+/* Tabla de productos */
+.table-container {
+    max-height: 180px; /* Ajustar la altura máxima para permitir 3 filas */
+    overflow-y: auto; /* Permitir overflow vertical solo si hay más de 3 elementos */
+    overflow-x: hidden; /* Evitar overflow horizontal */
+}
+
+.table {
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    margin-bottom: 20px;
+    width: 100%;
+    display: table;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table th {
+    background: #A58A6A;
+    color: #fff;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Mensajes de alerta */
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Media queries para dispositivos móviles */
+@media only screen and (max-width: 768px) {
+    .contenedor-main {
+        width: 90%;
+        margin: 100px auto 20px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    .table thead {
+        display: none;
+    }
+
+    .table tbody, .table tr, .table td {
+        display: block;
+        width: 100%;
+    }
+
+    .table tr {
+        margin-bottom: 15px;
+    }
+
+    .table td {
+        text-align: right;
+        padding-left: 50%;
+        position: relative;
+    }
+
+    .table td:before {
+        content: attr(data-title);
+        position: absolute;
+        left: 0;
+        width: 50%;
+        padding-left: 15px;
+        font-weight: bold;
+        text-align: left;
+    }
 }

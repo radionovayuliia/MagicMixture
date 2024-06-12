@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{/fragment.html::cabecera}"></head>
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <h1>Gestionar Cócteles</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Tipo</th>
+                <th>Precio</th>
+                <th>Stock</th>
+                <th>Categoria</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="coctel : ${listaCocteles}">
+                <td th:text="${coctel.id}">ID</td>
+                <td th:text="${coctel.nombre}">Nombre</td>
+                <td th:text="${coctel.tipoCoctel}">Tipo</td>
+                <td th:text="${coctel.precio}">Precio</td>
+                <td th:text="${coctel.stock}">Stock</td>
+                <td th:text="${coctel.categoria.nombre}">Categoria</td>
+                <td>
+                    <a th:href="@{'/cocteles/editar/' + ${coctel.id}}">Editar</a>
+                    <a th:href="@{'/cocteles/borrar/' + ${coctel.id}}" onclick="return confirm('¿Estás seguro?')">Borrar</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <a href="/cocteles/nuevo">Añadir Nuevo Cóctel</a>
+</body>
+</html>

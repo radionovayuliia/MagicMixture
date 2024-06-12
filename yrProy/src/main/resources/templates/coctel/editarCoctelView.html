@@ -1,30 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{/fragment.html::cabecera}"></head>
-
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h1>Categorias</h1>
-
-    <h1>Editar</h1>
-    <form method="post" action="#" th:action="@{/cocteles/editar/submit}" th:object="${bebida}">
-        <label>Id: <input type="text" id="id" th:field="*{id}" /> </label><br />
+    <h1>Editar Coctel</h1>
+    <form method="post" th:action="@{/cocteles/editar/submit}" th:object="${bebida}">
+        <label>Id: <input type="text" id="id" th:field="*{id}" readonly /> </label><br />
         <label>Nombre: <input type="text" id="nombre" th:field="*{nombre}" /></label><br />
         Tipo Coctel:<br />
         <div th:each="tipo : ${T(com.example.demo.domain.TipoCoctel).values()}">
-            <input type="radio" name="button1" th:value="${tipo}" th:text="${tipo}" th:field="*{tipoCoctel}" />
+            <input type="radio" th:field="*{tipoCoctel}" th:value="${tipo}" /> <span th:text="${tipo}"></span>
         </div>
         <label>Ingredientes: <input type="text" id="ingredientes" th:field="*{ingredientes}" /></label><br />
-        <label>Preparacion: <input type="text" id="preparacion" th:field="*{preparacion}" /></label><br />
-        <input type="submit" value="Enviar" />
-        <label>Categoria
-            <select name="categoria" th:field="*{idCategoria}">
-                <option th:each="cat : ${listaCategorias}" th:value="${cat.id}" th:text="${cat.nombre}"></option>
+        <label>Precio: <input type="text" id="precio" th:field="*{precio}" /></label><br />
+        <label>Stock: <input type="text" id="stock" th:field="*{stock}" /></label><br />
+        <label>Categoría:
+            <select th:field="*{categoria}">
+                <option th:each="categoria : ${listaCategorias}" th:value="${categoria.id}" th:text="${categoria.nombre}"></option>
             </select>
-        </label>
+        </label><br />
+        <input type="submit" value="Guardar Cambios" />
     </form>
-
 </body>
-
 </html>

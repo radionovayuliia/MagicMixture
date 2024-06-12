@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -36,12 +37,14 @@ public class CategoriaController {
         return "/categoria/categoriasView";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/newCategory")
     public String showNew(Model model) {
         model.addAttribute("categoria", new Categoria());
         return "/categoria/nuevaCategoriaView";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/nuevaCategoria/submit")
     public String showNewSubmit(@Valid Categoria categoria, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) 
@@ -50,6 +53,7 @@ public class CategoriaController {
         return "redirect:/categorias?op=1";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/edit/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         Categoria categoria;
@@ -62,6 +66,7 @@ public class CategoriaController {
         return "/categoria/editarCategoria";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/editCategoria/submit")
     public String showEditSubmit(@Valid Categoria categoria, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
@@ -70,6 +75,7 @@ public class CategoriaController {
         return "redirect:/categorias?op=2";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public String showDelete(@PathVariable long id, Model model) {
         try {
@@ -80,3 +86,4 @@ public class CategoriaController {
         return "redirect:/categorias?op=3";
     }
 }
+

@@ -43,6 +43,8 @@ public class SecurityConfig {
                             .requestMatchers("/valoracion/new").hasRole("USER")
                             .requestMatchers("/valoracion/**", "/cocteles/**", "/categorias/**")
                             .hasAnyRole("MANAGER", "ADMIN")
+                            .requestMatchers("/administracion")
+                            .hasAnyRole( "ADMIN")
                             .anyRequest().authenticated())
                             .formLogin(formLogin -> formLogin
                                             .loginPage("/magicmixture/login")

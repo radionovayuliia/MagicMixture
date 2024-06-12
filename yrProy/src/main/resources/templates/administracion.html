@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity" lang="es">
+
+<head>
+    <title>Administración</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/administracion.css">
+</head>
+
+<body>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <main class="contenedor-main">
+        <h1>Administración</h1>
+        <ul>
+            <li><a th:href="@{/categorias}">Gestionar Categorías</a></li>
+            <li><a href="/cocteles/gestionar">Gestionar Cócteles</a></li>
+        </ul>
+    </main>
+</body>
+
+</html>

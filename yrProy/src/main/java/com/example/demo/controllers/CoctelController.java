@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +19,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 
 import com.example.demo.domain.Categoria;
 import com.example.demo.domain.Coctel;
-import com.example.demo.domain.CoctelFavorito;
 import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.services.CategoriaService;
 import com.example.demo.services.CoctelService;
@@ -34,25 +33,16 @@ import jakarta.validation.Valid;
 public class CoctelController {
     @Autowired
     CoctelService coctelService;
-    
+
     @Autowired
     private CategoriaService categoriaService;
 
-    @GetMapping("/miCoctelFavorito")
-    public String showFormularioFavorito(Model model) {
-        model.addAttribute("coctelFavorito", new CoctelFavorito());
-        return "/favCoctel/formCoctel";
-    }
-
-    @PostMapping("/miCoctelFavorito/submit")
-    public String showCoctelFavorito(CoctelFavorito coctelFavorito, Model model,
-            @RequestParam("miFichero") MultipartFile myfile) {
-        model.addAttribute("nombre", coctelFavorito.getNombre());
-        model.addAttribute("coctel", coctelFavorito.getCoctel());
-        model.addAttribute("receta", coctelFavorito.getReceta());
-        model.addAttribute("opcion", coctelFavorito.getOpcion());
-        model.addAttribute("acepto", coctelFavorito.getAcepto());
-        return "/favCoctel/datosProcesados";
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/gestionar")
+    public String showGestionarCocteles(Model model) {
+        List<Coctel> cocteles = coctelService.obtenerTodos();
+        model.addAttribute("listaCocteles", cocteles);
+        return "coctel/gestionarCoctelesView";
     }
 
     @GetMapping("/detalle")
@@ -62,8 +52,8 @@ public class CoctelController {
 
     @GetMapping("")
     public String showProductos(@RequestParam(defaultValue = "0") int page,
-                                @RequestParam(required = false) Long categoriaId,
-                                Model model) {
+            @RequestParam(required = false) Long categoriaId,
+            Model model) {
         Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> cocteles;
         if (categoriaId != null && categoriaId > 0) {
@@ -84,6 +74,7 @@ public class CoctelController {
         return "/coctel/detalleCoctel";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/nuevo")
     public String showNew(Model model) {
         model.addAttribute("coctel", new Coctel());
@@ -91,6 +82,7 @@ public class CoctelController {
         return "coctel/nuevoCoctelView";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/nuevo/submit")
     public String showNewSubmit(@Valid Coctel coctel, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
@@ -99,6 +91,7 @@ public class CoctelController {
         return "redirect:/cocteles?op=1";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
         try {
@@ -112,6 +105,7 @@ public class CoctelController {
         }
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/editar/submit")
     public String showEditSubmit(@Valid Coctel coctel, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
@@ -120,6 +114,7 @@ public class CoctelController {
         return "redirect:/cocteles?op=2";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/borrar/{id}")
     public String showDelete(@PathVariable long id, Model model) {
         try {
@@ -131,6 +126,7 @@ public class CoctelController {
         return "redirect:/cocteles?op=3";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{cat}")
     public String showDelete(@PathVariable long cat) throws NotFoundException {
         if (coctelService.obtenerPorCategoria(cat).size() == 0)
@@ -139,7 +135,8 @@ public class CoctelController {
     }
 
     @GetMapping("/porCateg/{idCat}")
-    public String showListInCategory(@PathVariable Long idCat, @RequestParam(defaultValue = "0") int page, Model model) {
+    public String showListInCategory(@PathVariable Long idCat, @RequestParam(defaultValue = "0") int page,
+            Model model) {
         Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> cocteles = coctelService.obtenerPorCategoria(idCat, pageable);
         model.addAttribute("listaCocteles", cocteles.getContent());
@@ -155,10 +152,10 @@ public class CoctelController {
     }
 
     @GetMapping("/buscar")
-    public String buscarCocteles(@RequestParam("nombre") String nombre, 
-                                 @RequestParam(value = "categoria", required = false) Long categoriaId,
-                                 @RequestParam(defaultValue = "0") int page,
-                                 Model model) {
+    public String buscarCocteles(@RequestParam("nombre") String nombre,
+            @RequestParam(value = "categoria", required = false) Long categoriaId,
+            @RequestParam(defaultValue = "0") int page,
+            Model model) {
         Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> resultados;
         if (categoriaId == null || categoriaId == 0) {
@@ -193,10 +190,11 @@ public class CoctelController {
             return "errorView";
         }
     }
-    
 
-        @PostMapping("/update-stock/{id}")
-    public ResponseEntity<?> updateStock(@PathVariable Long id, @RequestBody Map<String, Integer> payload) throws NotFoundException{
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/update-stock/{id}")
+    public ResponseEntity<?> updateStock(@PathVariable Long id, @RequestBody Map<String, Integer> payload)
+            throws NotFoundException {
         int cantidad = payload.get("cantidad");
         Coctel coctel = coctelService.obtenerPorId(id);
         if (coctel != null && coctel.getStock() >= cantidad) {

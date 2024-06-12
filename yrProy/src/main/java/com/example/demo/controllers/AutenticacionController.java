@@ -56,18 +56,11 @@ public class AutenticacionController {
             return "main/registrarse";
         }
         nuevoUsuario.setRol(UserRol.USER);
-        //nuevoUsuario.setContraseña(passwordEncoder.encode(nuevoUsuario.getContraseña())); // Asegúrate de codificar la contraseña
         Usuario user = usuarioService.añadir(nuevoUsuario);
         System.out.println(user);
         model.addAttribute("message", "Usuario registrado correctamente.");
         return "main/registrarse";
     }
     
-
-    // @GetMapping("/home")
-    // public String home(Authentication authentication, Model model) {
-    //     model.addAttribute("username", authentication.getName());
-    //     return "main/mainPage";
-    // }
 }
 

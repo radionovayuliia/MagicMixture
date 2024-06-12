@@ -1,23 +1,48 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="es">
+
 <head>
     <title>Mis Pedidos</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/pedidosView.css">
 </head>
+
 <body>
-    <h1>Mis Pedidos</h1>
-    <ul>
-        <li th:each="pedido : ${pedidos}">
-            <span th:text="${pedido.id}">ID del Pedido</span>
-            <span> - </span>
-            <span th:text="${pedido.fecha}">Fecha del Pedido</span>
-            <ul>
-                <li th:each="linea : ${pedido.líneasPedido}">
-                    <span th:text="${linea.coctel.nombre}">Nombre del Cóctel</span>
-                    <span> - </span>
-                    <span th:text="${linea.cantidad}">Cantidad</span>
-                </li>
-            </ul>
-        </li>
-    </ul>
+    <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+    <main class="contenedor-main">
+        <section class="contenedor">
+            <h1>Mis Pedidos</h1>
+            <div th:if="${#lists.isEmpty(pedidos)}" class="alert alert-info">No tienes pedidos.</div>
+            <div th:unless="${#lists.isEmpty(pedidos)}">
+                <div th:each="pedido : ${pedidos}" class="pedido">
+                    <h3>Pedido #{pedido.id}</h3>
+                    <p><strong>Fecha:</strong> <span th:text="${pedido.fecha}">Fecha del pedido</span></p>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Cantidad</th>
+                                <th>Precio</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="linea : ${pedido.líneasPedido}">
+                                <td th:text="${linea.coctel.nombre}">Nombre del cóctel</td>
+                                <td th:text="${linea.cantidad}">Cantidad</td>
+                                <td th:text="${linea.coctel.precio} + ' €'">Precio</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+    </main>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+        crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"
+        crossorigin="anonymous"></script>
 </body>
+
 </html>

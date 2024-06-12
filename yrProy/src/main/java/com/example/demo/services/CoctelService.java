@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import com.example.demo.domain.Coctel;
+import com.example.demo.exceptions.NotFoundException;
 
 public interface CoctelService {
     int anhoActual();
@@ -14,11 +15,13 @@ public interface CoctelService {
 
     List<Coctel> obtenerTodos();
 
-    Coctel obtenerPorId(Long id);
+    Coctel obtenerPorId(Long id) throws NotFoundException;
+
+    boolean verificarStock(Long id, int cantidad) throws NotFoundException;
 
     Coctel editar(Coctel coctel);
 
-    void borrar(Long id);
+    void borrar(Long id) throws NotFoundException;
 
     List<Coctel> obtenerPorCategoria(Long idCategoria);
 
@@ -33,4 +36,6 @@ public interface CoctelService {
     Page<Coctel> buscarPorNombre(String nombre, Pageable pageable);
 
     Page<Coctel> buscarPorNombreYCategoria(String nombre, Long categoriaId, Pageable pageable);
+
+    void reducirStock(Long id, int cantidad) throws NotFoundException;
 }

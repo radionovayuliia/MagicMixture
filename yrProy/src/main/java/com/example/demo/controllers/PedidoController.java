@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import com.example.demo.domain.*;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Controller
-@RequestMapping("/pedidos")
+@RequestMapping("/magicmixture/mis-pedidos")
 public class PedidoController {
 
     @Autowired
@@ -27,21 +28,31 @@ public class PedidoController {
     private CoctelService coctelService;
 
     @PostMapping("/crearPedido")
-    public String crearPedido() {
+    public String crearPedido(Model model) {
         Usuario usuario = usuarioService.obtenerUsuarioConectado();
-        Carrito carrito = carritoService.getCarrito();
-        List<LineaPedido> líneasPedido = carrito.getCoctelesEnCarrito().entrySet().stream()
-                .map(entry -> {
-                    LineaPedido línea = new LineaPedido();
-                    línea.setCoctel(coctelService.obtenerPorId(entry.getKey()));
-                    línea.setCantidad(entry.getValue());
-                    return línea;
-                })
-                .collect(Collectors.toList());
+        Carrito carrito = carritoService.obtenerCarrito();
+        List<LineaPedido> lineasPedido;
+        try {
+            lineasPedido = carrito.getItems().entrySet().stream()
+                    .map(entry -> {
+                        LineaPedido linea = new LineaPedido();
+                        try {
+                            linea.setCoctel(coctelService.obtenerPorId(entry.getKey()));
+                        } catch (NotFoundException e) {
+                            throw new RuntimeException(e);
+                        }
+                        linea.setCantidad(entry.getValue().getCantidad());
+                        return linea;
+                    })
+                    .collect(Collectors.toList());
 
-        pedidoService.crearPedido(usuario, líneasPedido);
-        carritoService.clear();
-        return "redirect:/pedidos";
+            pedidoService.crearPedido(usuario, lineasPedido);
+            carritoService.vaciarCarrito();
+            return "redirect:/pedidos";
+        } catch (RuntimeException e) {
+            model.addAttribute("error", "Error al crear el pedido: " + e.getCause().getMessage());
+            return "error/404"; 
+        }
     }
 
     @GetMapping
@@ -52,4 +63,3 @@ public class PedidoController {
         return "pedidos/listaPedidosView";
     }
 }
-

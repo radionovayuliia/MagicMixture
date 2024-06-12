@@ -1,21 +1,26 @@
+:root {
+    --primary-color: #A58A6A;
+    --background-color: #f8f9fa;
+    --text-color: #333;
+}
+
 * {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
     font-family: "the-seasons";
 }
 
 html, body {
     height: 100%;
     width: 100%;
-    overflow: auto;
 }
 
 body {
+    display: flex;
+    flex-direction: column;
     background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../images/inicio.png');
     background-size: cover;
     background-position: center;
-    background-attachment: fixed;
     color: #fff;
 }
 
@@ -62,7 +67,7 @@ body {
     content: '';
     height: 3px;
     width: 0;
-    background: #A58A6A;
+    background: var(--primary-color);
     position: absolute;
     left: 0;
     bottom: -10px;
@@ -73,188 +78,162 @@ body {
     width: 100%;
 }
 
-.form-busqueda {
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 20px;
-}
-
-.form-busqueda input,
-.form-busqueda select {
-    margin-right: 10px;
-    padding: 20px;
-    border-radius: 5px;
-    border: 2px solid #A58A6A;
-}
-
-.form-busqueda button {
-    background-color: #A58A6A;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    transition: background 0.3s ease;
-}
-
-.form-busqueda button:hover {
-    background-color: #8f7356;
-}
-
-.categorias {
+.contenedor-main {
+    flex: 1;
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 900px;
+    width: 90%;
+    margin: 120px auto 20px auto;
+}
+
+.coctel-detalle {
+    display: flex;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    background-color: transparent;
+}
+
+.titulo {
+    color: #000;
+    font-size: 2rem;
+    text-align: center;
+    width: 100%;
+    margin-bottom: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.contenedor-img {
+    flex: 1;
     text-align: center;
 }
 
-.contenedor-opciones a {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    transition: background 0.3s ease;
-}
-
-.contenedor-opciones a.active,
-.contenedor-opciones a:hover {
-    background-color: #A58A6A;
-    color: #fff;
-}
-
-.contenedor-cocteles {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 20px;
-}
-
-.coctel {
-    background: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease;
-    color: #000;
-    width: 275px;
-}
-
-.coctel:hover {
-    transform: translateY(-10px);
-}
-
-.coctel img {
-    max-width: 100%;
-    border-radius: 10px;
-    height: auto;
-}
-
-.contenedor-main {
+.imagen-coctel {
     width: 100%;
-    max-width: 1200px;
-    margin: 120px auto 0;
-    position: relative;
-    z-index: 1;
+    max-width: 395px;
+    border-radius: 10px;
+}
+
+.detalles-coctel {
+    flex: 1;
+    background-color: rgba(248, 249, 250, 0.9);
     padding: 20px;
     border-radius: 10px;
-    color: #000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    color: var(--text-color);
 }
 
-.coctel .content-coctel {
-    margin-top: 10px;
+.detalles-coctel p {
+    font-size: 1.2rem;
+    margin-bottom: 10px;
 }
 
-.coctel h3 {
-    font-size: 1.5em;
-    color: #333;
-}
-
-.coctel .precio {
-    font-size: 1.2em;
-    color: #A58A6A;
-    margin: 10px 0;
+.detalles-coctel .precio {
+    font-size: 1.5rem;
+    color: var(--primary-color);
 }
 
 .add-to-cart {
     display: flex;
     align-items: center;
     gap: 10px;
-    justify-content: center;
-    margin-top: 10px;
-    width: 100%;
-}
-
-.add-to-cart .cantidad {
-    width: 50px;
-    padding: 5px;
-    text-align: center;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
-
-.add-to-cart-btn {
-    background-color: #A58A6A;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px;
-    flex: 1;
-    cursor: pointer;
-    transition: background 0.3s ease;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-}
-
-.add-to-cart-btn:hover {
-    background-color: #8f7356;
-}
-
-.added-message {
-    display: none;
-    color: #28a745;
-    font-weight: bold;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.add-to-cart-btn.added {
-    background-color: #28a745;
-}
-
-.add-to-cart-btn.added .fa-cart-plus {
-    display: none;
-}
-
-.pagination {
-    display: flex;
-    justify-content: center;
     margin-top: 20px;
 }
 
-.pagination a,
-.pagination span {
-    color: #A58A6A;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    margin: 0 5px;
-    border: 1px solid #A58A6A;
+.add-to-cart input {
+    width: 60px;
+    padding: 5px;
+    text-align: center;
 }
 
-.pagination a:hover,
-.pagination span.active {
-    background-color: #A58A6A;
+.add-to-cart button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
     color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+}
+
+.add-to-cart button:hover {
+    background-color: var(--background-color);
+    color: var(--primary-color);
+}
+
+.cocteles-similares {
+    margin-top: 40px;
+    text-decoration: none;
+    color: #000;
+    width: 100%;
+    background-color: #fff;
+    border-radius: 10px;
+}
+
+.cocteles-similares h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-decoration: none;
+    color: #000;
+    background-color: var(--primary-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+.cocteles-grid {
+    display: flex;
+    text-align: left;
+    gap: 20px;
+    flex-wrap: wrap;
+    justify-content: center;
+    text-decoration: none;
+    color: #000;
+}
+
+.cocteles-grid div {
+    min-width: 150px;
+    text-align: center;
+    text-decoration: none;
+    justify-content: flex-start;
+}
+
+.cocteles-grid div:hover {
+    min-width: 150px;
+    text-align: center;
+    text-decoration: none;
+    justify-content: flex-start;
+    text-decoration: none;
+}
+
+
+.cocteles-grid img {
+    max-width: 150px;
+    border-radius: 10px;
+
+}
+
+.similar-coctel-nombre{
+    text-decoration: none;
+    color: #000
+}
+
+.similar-coctel-nombre:hover{
+    text-decoration: none !important; 
 }
 
 footer {
     font-size:medium;
 }
+
 .footer {
     background-color: #A58A6A;
 }
@@ -297,7 +276,6 @@ footer {
 .my-account ul li {
     list-style: none;
     color: #fff;
-    /* font-size: 1.4rem; */
     font-weight: 300;
 }
 
@@ -329,7 +307,6 @@ footer {
 
 .redesSociales span i {
     color: #fff;
-    /* font-size: 1.2rem; */
 }
 
 .facebook {
@@ -361,7 +338,6 @@ footer {
 }
 
 .content p {
-    /* font-size: 1.4rem; */
     color: #fff;
     font-weight: 300;
 }
@@ -392,7 +368,6 @@ footer {
     text-transform: uppercase;
     padding: 1rem 3rem;
     border-radius: 2rem;
-    /* font-size: 1.4rem; */
     font-family: inherit;
     cursor: pointer;
     font-weight: 600;
@@ -410,18 +385,64 @@ footer {
     font-size: larger;
 }
 
-@media only screen and (max-width: 768px) {
+
+@media (max-width: 768px) {
+    html {
+        font-size: 55%;
+    }
+
     .contenedor-main {
+        padding: 2rem;
         width: 90%;
     }
 
-    .contenedor-cocteles {
+    .titulo {
+        font-size: 2.4rem;
+    }
+
+    .detalles-coctel p {
+        font-size: 1.2rem;
+    }
+
+    .detalles-coctel .precio {
+        font-size: 1.5rem;
+    }
+
+    .menu-footer {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+@media (max-width: 468px) {
+    html {
+        font-size: 42.5%;
+    }
+
+    .contenedor-main {
+        padding: 1rem;
+        width: 100%;
+    }
+
+    .titulo {
+        font-size: 2rem;
+    }
+
+    .detalles-coctel p {
+        font-size: 1rem;
+    }
+
+    .detalles-coctel .precio {
+        font-size: 1.2rem;
+    }
+
+    .menu-footer {
         flex-direction: column;
         align-items: center;
     }
 
-    .contenedor-cocteles .coctel {
-        width: 80%;
-        margin-bottom: 20px;
+    .footer {
+        text-align: center;
     }
 }
+

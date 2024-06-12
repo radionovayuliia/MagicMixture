@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.example.demo.domain.Valoracion;
+import com.example.demo.exceptions.NotFoundException;
 import com.example.demo.services.CoctelService;
 import com.example.demo.services.UsuarioService;
 import com.example.demo.services.ValoracionService;
@@ -30,7 +31,7 @@ public class ValoracionController {
     public ValoracionService valoracionService;
 
     @GetMapping("/producto/{id}")
-    public String showListProductos(@PathVariable Long id, Model model) {
+    public String showListProductos(@PathVariable Long id, Model model)  throws NotFoundException{
         model.addAttribute("listaValoracion",
                 valoracionService.obtenerTodosPorCoctel(coctelService.obtenerPorId(id)));
         return "valoracion/valoracionListView";

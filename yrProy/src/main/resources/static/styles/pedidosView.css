@@ -1,0 +1,25 @@
+.contenedor {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.pedido {
+    border: 1px solid #ddd;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.pedido h3 {
+    margin-top: 0;
+}
+
+.pedido p {
+    margin: 5px 0;
+}
+
+.pedido table {
+    width: 100%;
+}

@@ -5,11 +5,17 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/ico/logoColor.ico">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <nav th:fragment="mainMenu" class="banner">
         <div class="navbar">
-            <img src="/images/logoBlanco.png" class="logo">
+            <a sec:authorize="isAuthenticated()" th:href="@{/cocteles}">
+                <img src="/images/logoBlanco.png" class="logo" alt="Logo">
+            </a>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/magicmixture}">
+                <img src="/images/logoBlanco.png" class="logo" alt="Logo">
+            </a>
             <ul>
                 <li>
                     <a sec:authorize="isAuthenticated()" th:href="@{/cocteles}">Inicio</a>
@@ -19,13 +25,21 @@
                 <li><a href="/magicmixture/contacto">Contacto</a></li>
                 <li sec:authorize="!isAuthenticated()"><a th:href="@{/magicmixture/login}">Iniciar Sesión</a></li>
                 <li class="dropdown" sec:authorize="isAuthenticated()">
-                    <button class="dropbtn"><span sec:authentication="name"></span></button>
+                    <button class="dropbtn">
+                        <span sec:authentication="name"></span>
+                    </button>
                     <div class="dropdown-content">
                         <a href="/magicmixture/editUsuario">Editar perfil</a>
+                        <a href="/magicmixture/mis-pedidos">Mis pedidos</a>
                         <form class="logout-form" th:action="@{/magicmixture/logout}" method="post">
                             <button type="submit">Cerrar sesión</button>
                         </form>
                     </div>
+                </li>
+                <li sec:authorize="isAuthenticated()">
+                    <a href="/magicmixture/carrito">
+                        <i class="fas fa-cart-plus"></i>
+                    </a>
                 </li>
             </ul>
         </div>

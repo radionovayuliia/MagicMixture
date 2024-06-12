@@ -1,15 +1,21 @@
 package com.example.demo.controllers;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -58,7 +64,7 @@ public class CoctelController {
     public String showProductos(@RequestParam(defaultValue = "0") int page,
                                 @RequestParam(required = false) Long categoriaId,
                                 Model model) {
-        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> cocteles;
         if (categoriaId != null && categoriaId > 0) {
             cocteles = coctelService.obtenerPorCategoria(categoriaId, pageable);
@@ -95,10 +101,15 @@ public class CoctelController {
 
     @GetMapping("/editar/{id}")
     public String showEditForm(@PathVariable Long id, Model model) {
-        Coctel coctel = coctelService.obtenerPorId(id);
-        model.addAttribute("bebida", coctel);
-        model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
-        return "coctel/editarCoctelView";
+        try {
+            Coctel coctel = coctelService.obtenerPorId(id);
+            model.addAttribute("bebida", coctel);
+            model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
+            return "coctel/editarCoctelView";
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error/404";
+        }
     }
 
     @PostMapping("/editar/submit")
@@ -111,7 +122,12 @@ public class CoctelController {
 
     @GetMapping("/borrar/{id}")
     public String showDelete(@PathVariable long id, Model model) {
-        coctelService.borrar(id);
+        try {
+            coctelService.borrar(id);
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "error/404";
+        }
         return "redirect:/cocteles?op=3";
     }
 
@@ -124,7 +140,7 @@ public class CoctelController {
 
     @GetMapping("/porCateg/{idCat}")
     public String showListInCategory(@PathVariable Long idCat, @RequestParam(defaultValue = "0") int page, Model model) {
-        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> cocteles = coctelService.obtenerPorCategoria(idCat, pageable);
         model.addAttribute("listaCocteles", cocteles.getContent());
         model.addAttribute("totalPages", cocteles.getTotalPages());
@@ -143,7 +159,7 @@ public class CoctelController {
                                  @RequestParam(value = "categoria", required = false) Long categoriaId,
                                  @RequestParam(defaultValue = "0") int page,
                                  Model model) {
-        Pageable pageable = PageRequest.of(page, 4); // 10 cocteles por página
+        Pageable pageable = PageRequest.of(page, 4);
         Page<Coctel> resultados;
         if (categoriaId == null || categoriaId == 0) {
             resultados = coctelService.buscarPorNombre(nombre, pageable);
@@ -161,5 +177,34 @@ public class CoctelController {
         model.addAttribute("currentPage", page);
         model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
         return "coctel/detalleCoctel";
+    }
+
+    @GetMapping("/{id}")
+    public String showCoctelDetail(@PathVariable Long id, Model model) {
+        try {
+            Coctel coctel = coctelService.obtenerPorId(id);
+            List<Coctel> similares = coctelService.obtenerPorCategoria(coctel.getCategoria().getId());
+            similares.removeIf(c -> c.getId().equals(id));
+            model.addAttribute("coctel", coctel);
+            model.addAttribute("similares", similares);
+            return "coctel/infoCoctel";
+        } catch (NotFoundException e) {
+            model.addAttribute("error", e.getMessage());
+            return "errorView";
+        }
+    }
+    
+
+        @PostMapping("/update-stock/{id}")
+    public ResponseEntity<?> updateStock(@PathVariable Long id, @RequestBody Map<String, Integer> payload) throws NotFoundException{
+        int cantidad = payload.get("cantidad");
+        Coctel coctel = coctelService.obtenerPorId(id);
+        if (coctel != null && coctel.getStock() >= cantidad) {
+            coctel.setStock(coctel.getStock() - cantidad);
+            coctelService.añadir(coctel);
+            return ResponseEntity.ok().build();
+        } else {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Stock insuficiente");
+        }
     }
 }

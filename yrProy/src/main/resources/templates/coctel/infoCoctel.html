@@ -2,66 +2,52 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="es">
 
 <head>
-    <title>Home</title>
+    <title>Detalle del Cóctel</title>
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/navbar.css">
-    <link rel="stylesheet" href="/styles/mainPage.css">
+    <link rel="stylesheet" href="/styles/infoCoctel.css">
+    <!-- <link rel="stylesheet" href="https://kit.fontawesome.com/81581fb069.css" crossorigin="anonymous"> -->
 </head>
 
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
     <main class="contenedor-main">
-        <section class="contenedor">
-            <form action="/cocteles/buscar" method="get" class="form-busqueda">
-                <input type="text" name="nombre" placeholder="Buscar cóctel por nombre" class="form-control">
-                <button type="submit" class="btn btn-primary">Buscar</button>
-            </form>
-        </section>
+        <h1 class="titulo" th:text="${coctel.nombre}">Nombre del Cóctel</h1>
         <div th:if="${error}" class="alert alert-danger" th:text="${error}" id="errorMessage"></div>
-        <div th:if="${msg}" class="alert alert-info" th:text="${msg}" id="succesMessage"></div>
-
-        <section class="contenedor categorias">
-            <div class="contenedor-opciones">
-                <a href="/cocteles" th:classappend="${categoriaSeleccionada.id == 0} ? 'active' : ''">Todos</a>
-                <a th:each="cat : ${listaCategorias}" th:href="@{'/cocteles/porCateg/' + ${cat.id}}"
-                    th:text="${cat.nombre}" th:classappend="${categoriaSeleccionada.id == cat.id} ? 'active' : ''">
-                </a>
+        <div th:if="${msg}" class="alert alert-info" th:text="${msg}" id="successMessage"></div>
+        <section class="contenedor coctel-detalle">
+            <div class="contenedor-img">
+                <img class="imagen-coctel" th:src="@{'/images/cocteles/' + ${coctel.nombre} + '.png'}" th:alt="${coctel.nombre}" />
             </div>
-
-            <div class="contenedor-cocteles">
-                <div th:each="bebida : ${listaCocteles}">
-                    <div class="coctel">
-                        <div class="contenedor-img">
-                            <a th:href="@{'/cocteles/' + ${bebida.id}}">
-                                <img th:src="@{'/images/cocteles/' + ${bebida.nombre} + '.png'}"
-                                    th:alt="${bebida.nombre}" />
-                            </a>
-                        </div>
-                        <div class="content-coctel">
-                            <h3 th:text="${bebida.nombre}">Nombre del cóctel</h3>
-                            <div class="precio" th:text="${bebida.precio} + ' €'">Precio</div>
-                            <div class="add-to-cart">
-                                <form th:action="@{/magicmixture/carrito/agregar2}" method="post" class="form-inline">
-                                    <input type="hidden" name="coctelId" th:value="${bebida.id}" />
-                                    <input type="number" class="cantidad" name="cantidad" value="1" min="1">
-                                    <button type="submit" class="btn btn-primary add-to-cart-btn">
-                                        Añadir al carrito <i class="fas fa-cart-plus"></i>
-                                    </button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
+            <div class="detalles-coctel">
+                <p><strong>Tipo:</strong> <span th:text="${coctel.tipoCoctel}">Tipo del Cóctel</span></p>
+                <p><strong>Ingredientes:</strong> <span th:text="${coctel.ingredientes}">Ingredientes del Cóctel</span></p>
+                <p class="precio"><strong>Precio:</strong> <span th:text="${coctel.precio} + ' €'">Precio del Cóctel</span></p>
+                <p><strong>Stock:</strong> <span id="stock" th:text="${coctel.stock}">Stock del Cóctel</span></p>
+                <p><strong>Categoría:</strong> <span th:text="${coctel.categoria.nombre}">Categoría del Cóctel</span></p>
+                <div class="add-to-cart">
+                    <label for="cantidad">Cantidad:</label>
+                    <input type="number" id="cantidad" name="cantidad" value="1" min="1">
+                    <form th:action="@{/magicmixture/carrito/agregar}" method="post" class="form-inline">
+                        <input type="hidden" name="coctelId" th:value="${coctel.id}" />
+                        <input type="hidden" name="cantidad" id="cantidadHidden" />
+                        <button type="submit" class="btn btn-primary add-to-cart-btn" onclick="setCantidad()">
+                            Añadir al carrito <i class="fas fa-cart-plus"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
+        </section>
 
-            <div class="pagination">
-                <a th:href="@{'/cocteles?page=' + (${currentPage} - 1)}" th:if="${currentPage > 0}">&laquo;</a>
-                <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
-                    <a th:href="@{'/cocteles?page=' + ${i}}" th:text="${i + 1}"
-                        th:class="${i == currentPage} ? 'active' : ''"></a>
-                </span>
-                <a th:href="@{'/cocteles?page=' + (${currentPage} + 1)}"
-                    th:if="${currentPage < totalPages - 1}">&raquo;</a>
+        <section class="cocteles-similares">
+            <h2>Más Cócteles de la misma categoría</h2>
+            <div class="cocteles-grid">
+                <div th:each="similarCoctel : ${similares}">
+                    <a th:href="@{/cocteles/{id}(id=${similarCoctel.id})}">
+                        <img th:src="@{'/images/cocteles/' + ${similarCoctel.nombre} + '.png'}" th:alt="${similarCoctel.nombre}" class="similar-coctel-img">
+                        <p th:text="${similarCoctel.nombre}" class="similar-coctel-nombre">Nombre del Cóctel</p>
+                    </a>
+                </div>
             </div>
         </section>
     </main>
@@ -130,17 +116,21 @@
     </footer>
 
     <script src="https://kit.fontawesome.com/81581fb069.js" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
     <script>
+        function setCantidad() {
+            document.getElementById('cantidadHidden').value = document.getElementById('cantidad').value;
+        }
+
         $(document).ready(function() {
-            // Fade out the error message after 2 seconds
             setTimeout(function() {
                 $('#errorMessage').fadeOut('slow');
-                $('#succesMessage').fadeOut('slow');
+                $('#successMessage').fadeOut('slow');
             }, 2000);
         });
     </script>
 </body>
 
 </html>
+
 

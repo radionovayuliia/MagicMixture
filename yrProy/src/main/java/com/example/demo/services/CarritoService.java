@@ -1,13 +1,16 @@
 package com.example.demo.services;
 
 import com.example.demo.domain.Carrito;
+import com.example.demo.exceptions.NotFoundException;
 
 public interface CarritoService {  
-    Carrito getCarrito();
+    Carrito obtenerCarrito();
 
-    void addCoctel(Long coctelId, int cantidad);
+    void añadirCoctel(Long coctelId, String nombre, int cantidad, double precio);
 
-    void removeCoctel(Long coctelId);
+    void borrarCoctel(Long coctelId);
 
-    void clear();
+    void vaciarCarrito();
+
+    void procesarCompra() throws NotFoundException;
 }

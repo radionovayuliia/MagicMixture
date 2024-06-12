@@ -1,0 +1,223 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "the-seasons";
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    overflow: auto;
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../images/inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    color: #fff;
+}
+
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: transparent;
+}
+
+.navbar {
+    width: 85%;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: initial;
+}
+
+.navbar ul {
+    display: flex;
+    align-items: center;
+}
+
+.navbar ul li {
+    list-style: none;
+    margin: 0 20px;
+    position: relative;
+}
+
+.navbar ul li a {
+    text-decoration: none;
+    color: #fff;
+    text-transform: uppercase;
+}
+
+.navbar ul li::after {
+    content: '';
+    height: 3px;
+    width: 0;
+    background: #A58A6A;
+    position: absolute;
+    left: 0;
+    bottom: -10px;
+    transition: width 0.5s;
+}
+
+.navbar ul li:hover::after {
+    width: 100%;
+}
+
+.contenedor-main {
+    background: rgba(0, 0, 0, 0.25);
+    width: 100%;
+    max-width: 1200px;
+    margin: 120px auto 20px;
+    position: relative;
+    z-index: 1;
+    padding: 20px;
+    border-radius: 10px;
+    color: #000;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.contenedor h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    background-color: #fff;
+
+}
+
+.table {
+    overflow: hidden;
+    margin-bottom: 20px;
+    color: #fff;
+    width: 100%;
+}
+
+.table th, .table td {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.table tr.header-row, .table tr.header-row th {
+    background-color: rgba(0, 0, 0, 0.5);
+    color: #fff;
+}
+
+.d-flex {
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.btn-secondary {
+    background-color: #A58A6A;
+    border-color: #A58A6A;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.btn-secondary:hover {
+    background-color: #8f7356;
+    border-color: #8f7356;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    border-color: #d43f3a;
+    color: #fff;
+    padding: 5px 10px;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.btn-danger:hover {
+    background-color: #c9302c;
+    border-color: #ac2925;
+}
+
+.acciones-carrito {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.acciones-carrito .btn-warning {
+    background-color: #8caee1;
+    border-color: #131881;
+    border-width: 2px;
+    color: #000000;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.acciones-carrito .btn-warning:hover {
+    background-color: #131881;
+    border-color: #76a0dd;
+    color: #fff;
+}
+
+.total-carrito h3 {
+    color: #A58A6A;
+}
+
+.alert-info {
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.comprar {
+    display: flex;
+    justify-content: center;
+    margin-top: 30px;
+}
+
+.btn-comprar {
+    background-color: #28a745;
+    border-color: #28a745;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 5px;
+}
+
+.btn-comprar:hover {
+    background-color: #218838;
+    border-color: #1e7e34;
+}
+.modal {
+    color: #000;
+    margin-top: 100px;
+}
+
+@media only screen and (max-width: 768px) {
+    .contenedor-main {
+        width: 90%;
+        margin: 100px auto 20px;
+    }
+
+    .acciones-carrito {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .acciones-carrito .btn-warning {
+        width: 100%;
+        margin-bottom: 10px;
+    }
+
+    .total-carrito {
+        text-align: center;
+        width: 100%;
+    }
+}

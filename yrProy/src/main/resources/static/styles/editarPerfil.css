@@ -39,21 +39,6 @@ body {
     z-index: 1;
 }
 
-/* form:not(.logout-form) {
-    background: #fff;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-    max-width: 500px;
-    width: 100%;
-    margin: 20px;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    position: relative;
-} */
-
 form:not(.logout-form) {
     background: #fff;
     padding: 20px;

@@ -38,7 +38,7 @@ public class SecurityConfig {
                             .requestMatchers("/magicmixture/**", "/magicmixture/registro/submit", "/autoregistro/**", "/styles/**", "/images/**", "/gif/**")
                             .permitAll()
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                            .requestMatchers("/valoracion/producto/**", "/valoracion/usuario/**", "/valoracion/new/**", "/valoracion/**", "/cocteles")
+                            .requestMatchers("/valoracion/producto/**", "/valoracion/usuario/**", "/valoracion/new/**", "/valoracion/**", "/cocteles", "/magicmixture/carrito/**")
                             .hasAnyRole("USER", "MANAGER", "ADMIN")
                             .requestMatchers("/valoracion/new").hasRole("USER")
                             .requestMatchers("/valoracion/**", "/cocteles/**", "/categorias/**")

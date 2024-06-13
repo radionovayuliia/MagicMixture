@@ -16,6 +16,18 @@
     color: initial;
 }
 
+.nombremagico {
+    font-size: 2em;
+    color: white; 
+    position: relative;
+    top: 20px;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
 .logo {
     width: 65px;
     padding-top: 15px;

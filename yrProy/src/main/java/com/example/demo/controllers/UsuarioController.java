@@ -1,6 +1,7 @@
 package com.example.demo.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +29,8 @@ public class UsuarioController {
     @Autowired
     PasswordEncoder passwordEncoder;
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/listaUsuarios")
     public String showUsuario(@RequestParam(required = false) Integer op, Model model) {
         model.addAttribute("listaUsuarios", usuarioService.obtenerTodos());
@@ -36,12 +39,15 @@ public class UsuarioController {
         return "usuario/usuariosView";
     }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/nuevoUsuario")
     public String showNew(Model model) {
         model.addAttribute("usuario", new Usuario());
         return "usuario/nuevoUsuarioView";
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/nuevoUsuario/submit")
     public String showNewSubmit(@Valid @ModelAttribute("usuario") Usuario nuevoUsuario, BindingResult bindingResult) {
         if (bindingResult.hasErrors())
@@ -51,6 +57,8 @@ public class UsuarioController {
         return "redirect:/api";
     }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/editUsuario")
     public String showEditForm(Model model) {
         Usuario usuarioConectado = usuarioService.obtenerUsuarioConectado();
@@ -58,7 +66,8 @@ public class UsuarioController {
         model.addAttribute("contraseñaNuevaDto", new ContraseñaNuevaDto());
         return "usuario/editarUsuario";
     }
-
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/editUsuario/submit")
     public String showEditSubmit(@Valid @ModelAttribute("usuario") Usuario usuarioForm, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
@@ -95,6 +104,8 @@ public class UsuarioController {
         return "usuario/editarUsuario";
     }
 
+    
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping("/delete/{id}")
     public String showDelete(@PathVariable long id, Model model) {
         usuarioService.borrar(id);

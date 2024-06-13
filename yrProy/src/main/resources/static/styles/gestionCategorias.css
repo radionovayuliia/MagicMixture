@@ -1,0 +1,108 @@
+:root {
+    --primary-color: #A58A6A;
+    --background-color: #fff;
+    --text-color: #333;
+    --link-hover-color: #8f7356;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: "the-seasons";
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+    width: 100%;
+    /* overflow: auto; */
+}
+
+body {
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../images/inicio.png');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+}
+
+.banner {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100px;
+    z-index: 10;
+    display: flex;
+    background: transparent;
+}
+
+h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 300px;
+    font-size: 2.5rem;
+}
+
+table {
+    margin-top: 200px;
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    background-color: var(--background-color);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+table th, table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+table th {
+    background-color: var(--primary-color);
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: 600;
+}
+
+table tr:hover {
+    background-color: #f1f1f1;
+}
+
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+a:hover {
+    color: var(--link-hover-color);
+}
+
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--primary-color);
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s;
+    text-align: center;
+    margin: 10px 0;
+}
+
+.btn:hover {
+    background-color: var(--link-hover-color);
+}
+
+.msg {
+    text-align: center;
+    color: var(--primary-color);
+    font-size: 1.2rem;
+    margin: 20px 0;
+}
+
+.footer {
+    text-align: center;
+}

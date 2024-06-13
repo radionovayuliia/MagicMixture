@@ -1,17 +1,25 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{/fragment.html::cabecera}"></head>
+<head>
+    <title>Administración</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <link rel="stylesheet" href="/styles/añadirCategoria.css">
+</head>
 
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h1>Nueva categoria</h1>
-    <form method="post" action="#" th:action="@{/nuevaCategoria/submit}" th:object="${categoria}">
-        <label>Id: <input type="text" id="id" th:field="*{id}" /> </label><br />
-        <label>Nombre: <input type="text" id="nombre" th:field="*{nombre}" /></label><br />
+    <form class="formulario" method="post" action="#" th:action="@{/nuevaCategoria/submit}" th:object="${categoria}">
+        <h1>Añadir categoria</h1>
+        <label for="id">Id: 
+            <input type="text" id="id" th:field="*{id}" />
+        </label>
+        <label for="nombre">Nombre: 
+            <input type="text" id="nombre" th:field="*{nombre}" />
+        </label>
         <input type="submit" value="Enviar" />
     </form>
-
 </body>
 
 </html>

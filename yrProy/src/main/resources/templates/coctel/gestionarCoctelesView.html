@@ -1,9 +1,13 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{/fragment.html::cabecera}"></head>
+    <head>
+        <title>Administración</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="/styles/navbar.css">
+        <link rel="stylesheet" href="/styles/gestionCocteles.css">
+    </head>
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h1>Gestionar Cócteles</h1>
     <table>
         <thead>
             <tr>
@@ -31,6 +35,9 @@
             </tr>
         </tbody>
     </table>
-    <a href="/cocteles/nuevo">Añadir Nuevo Cóctel</a>
+    <div class="footer">
+        <a href="/cocteles/nuevo" class="btn">Añadir Coctel</a><br />
+        <p class="msg" th:text="${msg}">*</p>
+    </div>
 </body>
 </html>

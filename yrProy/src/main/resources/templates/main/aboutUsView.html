@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,21 +10,17 @@
     <link rel="stylesheet" href="/styles/quienesSomos.css">
     <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
 </head>
+
 <body>
-    <div class="scroll-snap-card">
-        <div class="slide red">
-            <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-            <div class="slide-content">
-                <p class="tip">Nuestra historia</p>
-            </div>
-        </div>
-        <div class="slide blue">
-            <p class="tip">Nuestra historia comienza con una mezcla única de miel, mantequilla y vodka, cariñosamente llamada "mixturka" por una madre amorosa.</p>
-        </div>
-        <div class="slide green">
-            <p class="tip">Únete a nosotros en MagicMixture, donde las tradiciones familiares se mezclan con la innovación para crear un lugar donde el arte de los cócteles se convierte en una experiencia mágica y memorable. ¡Porque cada gota de sabor cuenta, y cada usuario es parte de nuestra hermosa historia!</p>
+    <div class="slide red">
+        <nav th:replace="~{/fragment.html::mainMenu}"></nav>
+        <div class="slide-content">
+            <p>En MagicMixture, hacemos que la preparación de cócteles sea sencilla y accesible para todos.</p>
+            <p> Somos un equipo apasionado por la mixología y la tecnología, comprometidos a transformar tu experiencia
+                de coctelería en casa.</p>
         </div>
     </div>
-</body>
-</html>
 
+</body>
+
+</html>

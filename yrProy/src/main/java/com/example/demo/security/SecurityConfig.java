@@ -35,16 +35,15 @@ public class SecurityConfig {
             http.headers(headersConfigurer -> headersConfigurer
                             .frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
             http.authorizeHttpRequests(auth -> auth
-                            .requestMatchers("/magicmixture/**", "/magicmixture/registro/submit", "/autoregistro/**", "/styles/**", "/images/**", "/gif/**")
+                            .requestMatchers("/magicmixture/**", "/magicmixture/registro/submit", "/styles/**", "/images/**", "/gif/**")
                             .permitAll()
                             .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                            .requestMatchers("/valoracion/producto/**", "/valoracion/usuario/**", "/valoracion/new/**", "/valoracion/**", "/cocteles", "/magicmixture/carrito/**")
+                            .requestMatchers("/cocteles/**", "/magicmixture/carrito/**")
                             .hasAnyRole("USER", "MANAGER", "ADMIN")
-                            .requestMatchers("/valoracion/new").hasRole("USER")
-                            .requestMatchers("/valoracion/**", "/cocteles/**", "/categorias/**")
+                            .requestMatchers( "/categorias/**")
                             .hasAnyRole("MANAGER", "ADMIN")
                             .requestMatchers("/administracion")
-                            .hasAnyRole( "ADMIN")
+                            .hasRole( "ADMIN")
                             .anyRequest().authenticated())
                             .formLogin(formLogin -> formLogin
                                             .loginPage("/magicmixture/login")

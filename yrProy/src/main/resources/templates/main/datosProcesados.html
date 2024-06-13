@@ -1,22 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head th:replace="~{/fragment.html::cabecera}"></head>
+<head>
+    <title>Datos para procesar</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/navbar.css">
+    <th:block th:replace="~{/fragment.html::cabecera}"></th:block>
+</head>
 
 <body>
     <nav th:replace="~{/fragment.html::mainMenu}"></nav>
-    <h3>Los datos han sido recibidos correctamente!</h3> <br />
-    <p>Datos para procesar:</p>
-    <br />
-    Nombre: <span th:text="${nombre}"></span>
-    <br />
-    Correo: <span th:text="${correo}"></span>
-    <br />
-    Razón: <span th:text="${opcion}"></span>
-    <br />
-    Comentario: <span th:text="${comentario}"></span>
-    <br />
-    Condiciones aceptadas: <span th:text="${condiciones} ? 'Sí' : 'No'"></span>
+    <div class="container">
+        <h3>¡Los datos han sido recibidos correctamente!</h3>
+        <p>Datos para procesar:</p>
+        <p>Nombre: <span th:text="${nombre}">Nombre del Usuario</span></p>
+        <p>Correo: <span th:text="${correo}">correo@ejemplo.com</span></p>
+        <p>Razón: <span th:text="${opcion}">Razón seleccionada</span></p>
+        <p>Comentario: <span th:text="${comentario}">Comentario del usuario</span></p>
+        <p>Condiciones aceptadas: <span th:text="${condiciones} ? 'Sí' : 'No'">Sí</span></p>
+    </div>
 </body>
 
 </html>

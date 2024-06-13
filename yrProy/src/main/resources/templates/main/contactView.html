@@ -41,10 +41,13 @@
     </div>
     <script>
         document.getElementById('contactForm').addEventListener('submit', function(event) {
+            event.preventDefault();
             var condiciones = document.getElementById('condiciones');
             if (!condiciones.checked) {
-                event.preventDefault();
                 alert('Por favor, acepta las condiciones del servicio.');
+            } else {
+                alert('Tu mensaje ha sido enviado correctamente.');
+                document.getElementById('contactForm').reset();
             }
         });
     </script>

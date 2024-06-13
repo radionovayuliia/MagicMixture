@@ -78,7 +78,7 @@ public class CoctelController {
     @GetMapping("/nuevo")
     public String showNew(Model model) {
         model.addAttribute("coctel", new Coctel());
-        model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
+        // model.addAttribute("listaCategorias", categoriaService.obtenerTodos());
         return "coctel/nuevoCoctelView";
     }
 

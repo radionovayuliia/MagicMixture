@@ -12,7 +12,7 @@ html, body {
 }
 
 body {
-    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url('../images/inicio.png');
+    background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)), url("../gif/MagicMixture.gif");
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
@@ -32,27 +32,34 @@ body {
 }
 
 .container {
+    color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     width: 100%;
     max-width: 500px;
-    margin: 120px auto 0;
+    margin: 165px auto 0;
     padding: 20px;
-    background: rgba(255, 255, 255, 0.9);
+    background: rgba(0, 0, 0, 0.25);
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 h2 {
     margin-bottom: 20px;
-    color: #333;
+    color: #fff;
 }
 
-.form-group {
+.container .form-group input {
     width: 100%;
-    margin-bottom: 15px;
+    padding: 15px 20px;
+    outline: none;
+    font-size: 1.25em;
+    border-radius: 25px;
+    background: #fff;
+    border: 4px solid #A58A6A;
+    margin-bottom: 30px;
 }
 
 .form-control {

@@ -31,7 +31,7 @@
                                 <tr th:each="linea : ${pedido.líneasPedido}">
                                     <td th:text="${linea.coctel.nombre}">Nombre del cóctel</td>
                                     <td th:text="${linea.cantidad}">Cantidad</td>
-                                    <td th:text="${linea.coctel.precio} + ' €'">Precio</td>
+                                    <td th:text="${linea.coctel.precio * linea.cantidad} + ' €'">Precio</td>
                                 </tr>
                             </tbody>
                         </table>

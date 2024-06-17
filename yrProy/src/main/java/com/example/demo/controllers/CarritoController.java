@@ -157,6 +157,8 @@ public class CarritoController {
                         LineaPedido linea = new LineaPedido();
                         try {
                             linea.setCoctel(coctelService.obtenerPorId(entry.getKey()));
+                            int stock_anterior = coctelService.obtenerPorId(entry.getKey()).getStock();
+                            coctelService.obtenerPorId(entry.getKey()).setStock(stock_anterior - entry.getValue().getCantidad());
                         } catch (NotFoundException e) {
                             throw new RuntimeException(e);
                         }
